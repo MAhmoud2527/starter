@@ -32,3 +32,16 @@ Auth::routes(['verify'=> true]);
 
 Route::get('/home', 'HomeController@index')->name('home') ->middleware('verified');
 
+Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['localeSessionRedirect', 'localizationRedirect', 'localeViewPath']], function () {
+
+    Route::group(['prefix' => 'offers'], function () {
+
+        Route::get('fillable', 'OfferController@fillable');
+            
+        Route::get('create', 'OfferController@create');
+        
+        Route::post('store', 'OfferController@insert') -> name('offers.store');
+    });
+});
+
+
